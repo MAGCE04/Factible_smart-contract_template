@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useProgram } from './useProgram';
 import { getUserPDA } from '../utils/pdas';
-import { UserAccount } from '../types/nft';
+import type { UserAccount } from '../types/nft';
 
 export const useUserAccount = () => {
   const { publicKey } = useWallet();
