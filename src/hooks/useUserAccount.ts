@@ -26,7 +26,7 @@ export const useUserAccount = () => {
       });
       setExists(true);
     } catch (error) {
-      console.log('User account not found');
+      console.log('User account not found:', error);
       setUserAccount(null);
       setExists(false);
     } finally {

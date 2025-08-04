@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Coins, Trophy, Clock, Zap } from 'lucide-react';
+import { Coins, Trophy, Clock, Zap, Settings } from 'lucide-react';
 
 import WalletContextProvider from './contexts/WalletContextProvider';
 import Header from './components/Header';
@@ -8,6 +8,7 @@ import StatsCard from './components/StatsCard';
 import NFTCard from './components/NFTCard';
 import LoadingSpinner from './components/LoadingSpinner';
 import InitializeUserButton from './components/InitializeUserButton';
+import AdminPanel from './components/AdminPanel';
 
 import { useNFTs } from './hooks/useNFTs';
 import { useUserAccount } from './hooks/useUserAccount';
@@ -15,10 +16,11 @@ import { useStaking } from './hooks/useStaking';
 import { DEFAULT_COLLECTION_MINT } from './utils/constants';
 
 const AppContent: React.FC = () => {
-  const { connected } = useWallet();
+  const { connected, publicKey } = useWallet();
   const { nfts, loading: nftsLoading, error: nftsError, refetch: refetchNFTs } = useNFTs();
   const { userAccount, loading: userLoading, exists: userExists, refetch: refetchUser } = useUserAccount();
   const { stakeNFT, unstakeNFT, claimRewards, loading: stakingLoading } = useStaking();
+  const [showAdminPanel, setShowAdminPanel] = React.useState(false);
 
   const handleStake = async (mintAddress: string) => {
     try {
@@ -90,6 +92,24 @@ const AppContent: React.FC = () => {
   return (
     <div className="min-h-screen">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Admin Panel Toggle */}
+        <div className="mb-6 flex justify-end">
+          <button
+            onClick={() => setShowAdminPanel(!showAdminPanel)}
+            className="btn-outline flex items-center space-x-2"
+          >
+            <Settings className="w-4 h-4" />
+            <span>{showAdminPanel ? 'Hide' : 'Show'} Admin Panel</span>
+          </button>
+        </div>
+
+        {/* Admin Panel */}
+        {showAdminPanel && (
+          <div className="mb-8">
+            <AdminPanel />
+          </div>
+        )}
+
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <StatsCard

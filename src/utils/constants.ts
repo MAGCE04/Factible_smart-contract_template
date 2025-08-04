@@ -1,7 +1,7 @@
 import { PublicKey } from '@solana/web3.js';
 
-// Program ID from your Anchor.toml
-export const PROGRAM_ID = new PublicKey('DSoaKmysRydnwr15J3k33vEReSh81pvGA8RWXTKcSRBj');
+// Program ID from your Anchor.toml - using the correct program ID
+export const PROGRAM_ID = new PublicKey('7dMsiW22eikw4o2hKMjPqg45ftzRM2ibc11VSdpeTdTY');
 
 // Metaplex Token Metadata Program ID
 export const METADATA_PROGRAM_ID = new PublicKey('metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s');
@@ -24,7 +24,7 @@ export const RPC_ENDPOINTS = {
 };
 
 // Default collection mint (you'll need to update this with your actual collection)
-export const DEFAULT_COLLECTION_MINT = 'YOUR_COLLECTION_MINT_HERE';
+export const DEFAULT_COLLECTION_MINT = 'YOUR_COLLECTION_MINT_HERE'; // Update this with your actual collection mint
 
 // Seeds for PDAs
 export const SEEDS = {
