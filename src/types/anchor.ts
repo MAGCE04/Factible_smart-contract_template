@@ -1,6 +1,6 @@
-export type AnchorNftStacking = {
+export type AnchorNftStaking = {
   "version": "0.1.0",
-  "name": "anchor_nft_stacking",
+  "name": "anchor_nft_staking",
   "instructions": [
     {
       "name": "initializeConfig",
@@ -324,9 +324,9 @@ export type AnchorNftStacking = {
   ]
 };
 
-export const IDL: AnchorNftStacking = {
+export const IDL: AnchorNftStaking = {
   "version": "0.1.0",
-  "name": "anchor_nft_stacking",
+  "name": "anchor_nft_staking",
   "instructions": [
     {
       "name": "initializeConfig",
