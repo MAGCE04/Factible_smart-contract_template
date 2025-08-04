@@ -109,18 +109,36 @@ const AppContent: React.FC = () => {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <StatsCard title="Total Points" value={userAccount?.points || 0} icon={Coins} subtitle="Available to claim" gradient="from-purple-600 to-purple-800" />
-          <StatsCard title="NFTs Staked" value={userAccount?.amountStaked || 0} icon={Trophy} subtitle="Currently earning rewards" gradient="from-pink-500 to-fuchsia-600" />
-          <StatsCard title="Total NFTs" value={nfts.length} icon={Clock} subtitle="In your wallet" gradient="from-indigo-500 to-blue-600" />
+          <StatsCard
+            title="Total Points"
+            value={userAccount?.points?.toNumber?.() || 0}
+            icon={Coins}
+            subtitle="Available to claim"
+            gradient="from-purple-600 to-purple-800"
+          />
+          <StatsCard
+            title="NFTs Staked"
+            value={userAccount?.amountStaked?.toNumber?.() || 0}
+            icon={Trophy}
+            subtitle="Currently earning rewards"
+            gradient="from-pink-500 to-fuchsia-600"
+          />
+          <StatsCard
+            title="Total NFTs"
+            value={nfts.length}
+            icon={Clock}
+            subtitle="In your wallet"
+            gradient="from-indigo-500 to-blue-600"
+          />
         </div>
 
-        {userAccount && userAccount.points > 0 && (
+        {userAccount && userAccount.points?.toNumber?.() > 0 && (
           <div className="card mb-8">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-bold text-white mb-2">Claim Your Rewards</h3>
                 <p className="text-white/70">
-                  You have {userAccount.points} points ready to claim!
+                  You have {userAccount.points?.toNumber?.()} points ready to claim!
                 </p>
               </div>
               <button
@@ -128,7 +146,14 @@ const AppContent: React.FC = () => {
                 disabled={stakingLoading}
                 className="btn-primary flex items-center space-x-2"
               >
-                {stakingLoading ? <LoadingSpinner size="sm" /> : (<><Coins className="w-5 h-5" /><span>Claim Rewards</span></>)}
+                {stakingLoading ? (
+                  <LoadingSpinner size="sm" />
+                ) : (
+                  <>
+                    <Coins className="w-5 h-5" />
+                    <span>Claim Rewards</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
