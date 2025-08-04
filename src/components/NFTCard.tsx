@@ -1,6 +1,6 @@
 import React from 'react';
 import { Clock, Lock, Unlock } from 'lucide-react';
-import { NFT } from '../types/nft';
+import type { NFT } from '../types/nft';
 import { formatTime, calculateTimeElapsed } from '../utils/helpers';
 import { cn } from '../utils/helpers';
 

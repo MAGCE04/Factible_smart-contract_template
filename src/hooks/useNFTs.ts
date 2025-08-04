@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
 import { getAssociatedTokenAddressSync } from '@solana/spl-token';
-import { NFT, NFTMetadata } from '../types/nft';
+import type { NFT, NFTMetadata } from '../types/nft';
 
 export const useNFTs = () => {
   const { connection } = useConnection();
