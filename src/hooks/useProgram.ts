@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Program, AnchorProvider } from '@coral-xyz/anchor';
 import { PROGRAM_ID } from '../utils/constants';
-import { IDL, AnchorNftStaking } from '../types/anchor';
+import { IDL } from '../types/anchor';
+import type { AnchorNftStaking } from '../types/anchor';
 
 export const useProgram = () => {
   const { connection } = useConnection();
