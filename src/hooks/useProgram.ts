@@ -19,7 +19,6 @@ export const useProgram = () => {
 
     return new Program<typeof IDL>(
       IDL,
-      PROGRAM_ID,
       provider
     );
   }, [connection, wallet]);
