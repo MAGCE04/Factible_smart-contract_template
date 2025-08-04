@@ -5,7 +5,7 @@ import { formatNumber } from '../utils/helpers';
 interface StatsCardProps {
   title: string;
   value: string | number;
-  icon: LucideIcon;
+  icon: typeof LucideIcon;
   subtitle?: string;
   gradient?: string;
 }
