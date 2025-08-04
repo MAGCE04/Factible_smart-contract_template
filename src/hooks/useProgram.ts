@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { Program, AnchorProvider } from '@coral-xyz/anchor';
+import { Program, AnchorProvider, Idl } from '@coral-xyz/anchor';
 import { PROGRAM_ID } from '../utils/constants';
 import { IDL } from '../types/anchor';
 
@@ -18,7 +18,7 @@ export const useProgram = () => {
     );
 
     return new Program<typeof IDL>(
-      IDL,
+      IDL as Idl,
       PROGRAM_ID,
       provider
     );
