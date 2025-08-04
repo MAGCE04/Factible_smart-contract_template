@@ -17,7 +17,7 @@ export const useUserAccount = () => {
     setLoading(true);
     try {
       const [userPDA] = getUserPDA(publicKey);
-      const account = await program.account.user.fetch(userPDA);
+      const account = await (program.account as any).user.fetch(userPDA);
       
       setUserAccount({
         points: account.points,
