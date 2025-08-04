@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { Program, AnchorProvider, Idl } from '@coral-xyz/anchor';
+import { Program, AnchorProvider } from '@coral-xyz/anchor';
 import { PROGRAM_ID } from '../utils/constants';
-import { IDL, AnchorNftStacking } from '../types/anchor';
+import { IDL } from '../types/anchor';
 
 export const useProgram = () => {
   const { connection } = useConnection();
@@ -17,8 +17,8 @@ export const useProgram = () => {
       AnchorProvider.defaultOptions()
     );
 
-    return new Program<typeof IDL>(
-      IDL as AnchorNftStacking & Idl,
+    return new Program(
+      IDL,
       PROGRAM_ID,
       provider
     );
