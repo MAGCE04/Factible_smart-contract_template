@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+//import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
 import { getAssociatedTokenAddressSync, TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { useProgram } from './useProgram';
@@ -14,8 +15,9 @@ import {
 import { METADATA_PROGRAM_ID } from '../utils/constants';
 
 export const useStaking = () => {
-  const { connection } = useConnection();
-  const { publicKey, sendTransaction } = useWallet();
+  //const { connection } = useConnection();
+  //const { publicKey, sendTransaction } = useWallet();
+  const { publicKey } = useWallet();
   const program = useProgram();
   const [loading, setLoading] = useState(false);
 

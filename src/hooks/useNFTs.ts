@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
-import { getAssociatedTokenAddressSync } from '@solana/spl-token';
-import type { NFT, NFTMetadata } from '../types/nft';
+//import { getAssociatedTokenAddressSync } from '@solana/spl-token';
+//import type { NFT, NFTMetadata } from '../types/nft';
+import type { NFT } from '../types/nft';
 
 export const useNFTs = () => {
   const { connection } = useConnection();
@@ -50,6 +51,9 @@ export const useNFTs = () => {
                 })
               }
             );
+            // ✅ Aquí se usa la variable, eliminando el warning
+            const metadataJson = await metadataResponse.json();
+            console.log(metadataJson); // O manipula los datos según lo que necesites
 
             // For demo purposes, create mock NFT data
             const nft: NFT = {

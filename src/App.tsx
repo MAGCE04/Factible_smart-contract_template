@@ -16,7 +16,8 @@ import { useStaking } from './hooks/useStaking';
 import { DEFAULT_COLLECTION_MINT } from './utils/constants';
 
 const AppContent: React.FC = () => {
-  const { connected, publicKey } = useWallet();
+  //const { connected, publicKey } = useWallet();
+  const { connected } = useWallet();
   const { nfts, loading: nftsLoading, error: nftsError, refetch: refetchNFTs } = useNFTs();
   const { userAccount, loading: userLoading, exists: userExists, refetch: refetchUser } = useUserAccount();
   const { stakeNFT, unstakeNFT, claimRewards, loading: stakingLoading } = useStaking();
