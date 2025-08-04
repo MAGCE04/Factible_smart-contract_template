@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Program, AnchorProvider } from '@coral-xyz/anchor';
-import { PROGRAM_ID } from '../utils/constants';
 import { IDL } from '../types/anchor';
 
 export const useProgram = () => {

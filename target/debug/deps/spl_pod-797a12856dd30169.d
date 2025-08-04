@@ -1,0 +1,12 @@
+/home/wlad/Factible_smart-contract_template/target/debug/deps/libspl_pod-797a12856dd30169.so: /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/lib.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/bytemuck.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/error.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/optional_keys.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/primitives.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/slice.rs
+
+/home/wlad/Factible_smart-contract_template/target/debug/deps/libspl_pod-797a12856dd30169.rlib: /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/lib.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/bytemuck.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/error.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/optional_keys.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/primitives.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/slice.rs
+
+/home/wlad/Factible_smart-contract_template/target/debug/deps/spl_pod-797a12856dd30169.d: /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/lib.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/bytemuck.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/error.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/optional_keys.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/primitives.rs /home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/slice.rs
+
+/home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/lib.rs:
+/home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/bytemuck.rs:
+/home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/error.rs:
+/home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/optional_keys.rs:
+/home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/primitives.rs:
+/home/wlad/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spl-pod-0.1.0/src/slice.rs:
