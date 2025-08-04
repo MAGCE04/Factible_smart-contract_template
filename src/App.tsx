@@ -16,7 +16,6 @@ import { useStaking } from './hooks/useStaking';
 import { DEFAULT_COLLECTION_MINT } from './utils/constants';
 
 const AppContent: React.FC = () => {
-  //const { connected, publicKey } = useWallet();
   const { connected } = useWallet();
   const { nfts, loading: nftsLoading, error: nftsError, refetch: refetchNFTs } = useNFTs();
   const { userAccount, loading: userLoading, exists: userExists, refetch: refetchUser } = useUserAccount();
@@ -55,14 +54,14 @@ const AppContent: React.FC = () => {
 
   if (!connected) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-24 h-24 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Zap className="w-12 h-12 text-white" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black to-slate-900 text-white">
+        <div className="text-center px-4">
+          <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-fuchsia-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Zap className="w-12 h-12 text-white animate-bounce" />
           </div>
-          <h2 className="text-3xl font-bold text-white mb-4">Connect Your Wallet</h2>
-          <p className="text-white/70 mb-8 max-w-md">
-            Connect your Solana wallet to start staking your NFTs and earning rewards.
+          <h2 className="text-4xl font-extrabold mb-3">Connect Your Wallet</h2>
+          <p className="text-lg text-white/70 max-w-md mx-auto">
+            Connect your Solana wallet to start staking your NFTs and earning exclusive rewards.
           </p>
         </div>
       </div>
@@ -71,7 +70,7 @@ const AppContent: React.FC = () => {
 
   if (userLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
         <div className="text-center">
           <LoadingSpinner size="lg" className="mx-auto mb-4" />
           <p className="text-white/70">Loading your account...</p>
@@ -82,7 +81,7 @@ const AppContent: React.FC = () => {
 
   if (!userExists) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
         <div className="max-w-md w-full">
           <InitializeUserButton />
         </div>
@@ -91,52 +90,30 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-black text-white">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Admin Panel Toggle */}
         <div className="mb-6 flex justify-end">
           <button
             onClick={() => setShowAdminPanel(!showAdminPanel)}
-            className="btn-outline flex items-center space-x-2"
+            className="btn-outline flex items-center space-x-2 text-white hover:text-purple-400"
           >
             <Settings className="w-4 h-4" />
             <span>{showAdminPanel ? 'Hide' : 'Show'} Admin Panel</span>
           </button>
         </div>
 
-        {/* Admin Panel */}
         {showAdminPanel && (
           <div className="mb-8">
             <AdminPanel />
           </div>
         )}
 
-        {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <StatsCard
-            title="Total Points"
-            value={userAccount?.points || 0}
-            icon={Coins}
-            subtitle="Available to claim"
-            gradient="from-primary-500 to-primary-600"
-          />
-          <StatsCard
-            title="NFTs Staked"
-            value={userAccount?.amountStaked || 0}
-            icon={Trophy}
-            subtitle="Currently earning rewards"
-            gradient="from-secondary-500 to-secondary-600"
-          />
-          <StatsCard
-            title="Total NFTs"
-            value={nfts.length}
-            icon={Clock}
-            subtitle="In your wallet"
-            gradient="from-purple-500 to-pink-600"
-          />
+          <StatsCard title="Total Points" value={userAccount?.points || 0} icon={Coins} subtitle="Available to claim" gradient="from-purple-600 to-purple-800" />
+          <StatsCard title="NFTs Staked" value={userAccount?.amountStaked || 0} icon={Trophy} subtitle="Currently earning rewards" gradient="from-pink-500 to-fuchsia-600" />
+          <StatsCard title="Total NFTs" value={nfts.length} icon={Clock} subtitle="In your wallet" gradient="from-indigo-500 to-blue-600" />
         </div>
 
-        {/* Claim Rewards Section */}
         {userAccount && userAccount.points > 0 && (
           <div className="card mb-8">
             <div className="flex items-center justify-between">
@@ -151,20 +128,12 @@ const AppContent: React.FC = () => {
                 disabled={stakingLoading}
                 className="btn-primary flex items-center space-x-2"
               >
-                {stakingLoading ? (
-                  <LoadingSpinner size="sm" />
-                ) : (
-                  <>
-                    <Coins className="w-5 h-5" />
-                    <span>Claim Rewards</span>
-                  </>
-                )}
+                {stakingLoading ? <LoadingSpinner size="sm" /> : (<><Coins className="w-5 h-5" /><span>Claim Rewards</span></>)}
               </button>
             </div>
           </div>
         )}
 
-        {/* NFTs Section */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold text-white">Your NFTs</h2>
@@ -223,7 +192,7 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <WalletContextProvider>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-900">
         <Header />
         <AppContent />
       </div>
