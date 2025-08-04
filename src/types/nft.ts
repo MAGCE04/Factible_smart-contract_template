@@ -44,5 +44,3 @@ export interface ConfigAccount {
   rewardsBump: number;
   bump: number;
 }
-
-export {};
