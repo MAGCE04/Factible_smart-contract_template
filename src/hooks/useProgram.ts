@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { Program, AnchorProvider, Idl } from '@coral-xyz/anchor';
+import { Program, AnchorProvider, type Idl } from '@coral-xyz/anchor';
 import { PROGRAM_ID } from '../utils/constants';
 import { IDL, type AnchorNftStacking } from '../types/anchor';
 
