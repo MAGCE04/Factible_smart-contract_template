@@ -3,7 +3,6 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useProgram } from './useProgram';
 import { getUserPDA } from '../utils/pdas';
 import type { UserAccount } from '../types/nft';
-import BN from 'bn.js'; 
 
 export const useUserAccount = () => {
   const { publicKey } = useWallet();
@@ -18,17 +17,19 @@ export const useUserAccount = () => {
     setLoading(true);
     try {
       const [userPDA] = getUserPDA(publicKey);
-      const account = await (program.account as any).user.fetch(userPDA);
+      console.log("Fetching user account at PDA:", userPDA.toString());
+      
+      // Use type assertion to access userAccount
+      const account = await (program as any).account.userAccount.fetch(userPDA);
+      console.log("User account data:", account);
 
-      // ✅ Aquí nos aseguramos de que siempre tenga valores válidos
       setUserAccount({
-        points: account?.points ?? new BN(0),
-        amountStaked: account?.amountStaked ?? new BN(0),
-        bump: account?.bump ?? 0,
+        owner: account.owner.toString(),
+        stakeCount: account.stakeCount,
+        isInitialized: account.isInitialized
       });
 
       setExists(true);
-      console.log('Cuenta de usuario:', account); // ✅ Debug útil
     } catch (error) {
       console.log('User account not found:', error);
       setUserAccount(null);
@@ -39,7 +40,9 @@ export const useUserAccount = () => {
   };
 
   useEffect(() => {
-    fetchUserAccount();
+    if (program && publicKey) {
+      fetchUserAccount();
+    }
   }, [program, publicKey]);
 
   return {

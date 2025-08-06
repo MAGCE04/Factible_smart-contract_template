@@ -1,8 +1,9 @@
 import React from 'react';
-import { Clock, Lock, Unlock } from 'lucide-react';
+import { Clock, Lock, Unlock, Shield, AlertCircle } from 'lucide-react';
 import type { NFT } from '../types/nft';
 import { formatTime, calculateTimeElapsed } from '../utils/helpers';
-import { cn } from '../utils/helpers';
+import LoadingSpinner from './LoadingSpinner';
+import { COLLECTION } from '../utils/constants';
 
 interface NFTCardProps {
   nft: NFT;
@@ -18,26 +19,37 @@ const NFTCard: React.FC<NFTCardProps> = ({
   loading = false
 }) => {
   const timeElapsed = nft.stakedAt ? calculateTimeElapsed(nft.stakedAt) : 0;
+  const cardClass = `nft-card card ${nft.isStaked ? 'staked' : ''}`;
+  const isPartOfCollection = nft.isPartOfCollection;
 
   return (
-    <div className={cn(
-      'nft-card',
-      nft.isStaked && 'staked'
-    )}>
+    <div className={cardClass}>
       <div className="relative">
         <img
           src={nft.image}
           alt={nft.name}
-          className="w-full h-48 object-cover rounded-lg mb-4"
+          className="nft-image"
           onError={(e) => {
             (e.target as HTMLImageElement).src = `https://picsum.photos/400/400?random=${nft.mint.slice(-4)}`;
           }}
         />
         
         {nft.isStaked && (
-          <div className="absolute top-2 right-2 bg-primary-500 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center space-x-1">
-            <Lock className="w-3 h-3" />
+          <div className="absolute top-2 right-2 bg-white-10 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center">
+            <Lock className="w-3 h-3 mr-1" />
             <span>Staked</span>
+          </div>
+        )}
+        
+        {isPartOfCollection ? (
+          <div className="absolute top-2 left-2 gradient-purple text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center">
+            <Shield className="w-3 h-3 mr-1" />
+            <span>{COLLECTION.METADATA.name}</span>
+          </div>
+        ) : (
+          <div className="absolute top-2 left-2 bg-white-10 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center">
+            <AlertCircle className="w-3 h-3 mr-1" />
+            <span>Not Verified</span>
           </div>
         )}
       </div>
@@ -45,20 +57,21 @@ const NFTCard: React.FC<NFTCardProps> = ({
       <div className="space-y-3">
         <div>
           <h3 className="font-semibold text-white text-lg">{nft.name}</h3>
-          <p className="text-white/70 text-sm">{nft.symbol}</p>
+          <p className="text-white-70 text-sm">{nft.symbol}</p>
+          <p className="text-white-60 text-xs">Mint: {nft.mint.slice(0, 4)}...{nft.mint.slice(-4)}</p>
         </div>
 
         {nft.description && (
-          <p className="text-white/60 text-sm line-clamp-2">{nft.description}</p>
+          <p className="text-white-60 text-sm line-clamp-2">{nft.description}</p>
         )}
 
         {nft.isStaked && nft.stakedAt && (
-          <div className="bg-white/10 rounded-lg p-3 space-y-2">
-            <div className="flex items-center space-x-2 text-white/80">
-              <Clock className="w-4 h-4" />
+          <div className="bg-white-10 rounded-lg p-3 space-y-2">
+            <div className="flex items-center text-white-80">
+              <Clock className="w-4 h-4 mr-2" />
               <span className="text-sm">Staked {timeElapsed} days ago</span>
             </div>
-            <p className="text-xs text-white/60">
+            <p className="text-xs text-white-60">
               Since: {formatTime(nft.stakedAt)}
             </p>
           </div>
@@ -66,12 +79,12 @@ const NFTCard: React.FC<NFTCardProps> = ({
 
         {nft.attributes && nft.attributes.length > 0 && (
           <div className="space-y-2">
-            <p className="text-white/80 text-sm font-medium">Attributes</p>
+            <p className="text-white-80 text-sm font-medium">Attributes</p>
             <div className="flex flex-wrap gap-2">
               {nft.attributes.slice(0, 3).map((attr, index) => (
                 <span
                   key={index}
-                  className="bg-white/10 text-white/80 px-2 py-1 rounded text-xs"
+                  className="bg-white-10 text-white-80 px-2 py-1 rounded text-xs"
                 >
                   {attr.trait_type}: {attr.value}
                 </span>
@@ -85,13 +98,13 @@ const NFTCard: React.FC<NFTCardProps> = ({
             <button
               onClick={onUnstake}
               disabled={loading}
-              className="btn-secondary w-full flex items-center justify-center space-x-2"
+              className="btn-secondary w-full"
             >
               {loading ? (
-                <div className="loading-spinner" />
+                <LoadingSpinner size="sm" />
               ) : (
                 <>
-                  <Unlock className="w-4 h-4" />
+                  <Unlock className="w-4 h-4 mr-2" />
                   <span>Unstake</span>
                 </>
               )}
@@ -99,15 +112,15 @@ const NFTCard: React.FC<NFTCardProps> = ({
           ) : (
             <button
               onClick={onStake}
-              disabled={loading}
-              className="btn-primary w-full flex items-center justify-center space-x-2"
+              disabled={loading || !isPartOfCollection}
+              className={`${isPartOfCollection ? 'btn-primary' : 'btn-outline'} w-full`}
             >
               {loading ? (
-                <div className="loading-spinner" />
+                <LoadingSpinner size="sm" />
               ) : (
                 <>
-                  <Lock className="w-4 h-4" />
-                  <span>Stake</span>
+                  <Lock className="w-4 h-4 mr-2" />
+                  <span>{isPartOfCollection ? 'Stake' : 'Not Eligible'}</span>
                 </>
               )}
             </button>

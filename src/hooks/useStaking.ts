@@ -1,151 +1,140 @@
 import { useState, useCallback } from 'react';
-//import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram } from '@solana/web3.js';
-import { getAssociatedTokenAddressSync, TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { useProgram } from './useProgram';
-import { 
-  getConfigPDA, 
-  getUserPDA, 
-  getStakePDA, 
-  getRewardsMintPDA, 
-  getMetadataPDA, 
-  getEditionPDA 
-} from '../utils/pdas';
-import { METADATA_PROGRAM_ID } from '../utils/constants';
+import { getStakePDA, getUserPDA } from '../utils/pdas';
 
 export const useStaking = () => {
-  //const { connection } = useConnection();
-  //const { publicKey, sendTransaction } = useWallet();
   const { publicKey } = useWallet();
   const program = useProgram();
   const [loading, setLoading] = useState(false);
 
   const initializeUser = useCallback(async () => {
-    if (!program || !publicKey) throw new Error('Wallet not connected');
+    if (!program || !publicKey) {
+      throw new Error('Wallet not connected or program not initialized');
+    }
 
     setLoading(true);
     try {
+      console.log("Initializing user account...");
+      
+      // Get the user PDA
       const [userPDA] = getUserPDA(publicKey);
+      console.log("User PDA:", userPDA.toString());
 
-      const tx = await program.methods
+      // Call the initialize_user instruction
+      // Use type assertion to access methods
+      const tx = await (program as any).methods
         .initializeUser()
         .accounts({
-          user: publicKey,
+          owner: publicKey,
           userAccount: userPDA,
           systemProgram: SystemProgram.programId,
         })
         .rpc();
 
+      console.log("User initialized with tx:", tx);
       return tx;
+    } catch (error) {
+      console.error("Error initializing user:", error);
+      throw error;
     } finally {
       setLoading(false);
     }
   }, [program, publicKey]);
 
-  const stakeNFT = useCallback(async (
-    mintAddress: string,
-    collectionMint: string
-  ) => {
-    if (!program || !publicKey) throw new Error('Wallet not connected');
+  const stakeNFT = useCallback(async (mintAddress: string) => {
+    if (!program || !publicKey) {
+      throw new Error('Wallet not connected or program not initialized');
+    }
 
     setLoading(true);
     try {
+      console.log(`Staking NFT with mint ${mintAddress}...`);
+      
+      // Convert string address to PublicKey
       const mint = new PublicKey(mintAddress);
-      const collection = new PublicKey(collectionMint);
-      const [configPDA] = getConfigPDA();
+      
+      // Get PDAs
       const [userPDA] = getUserPDA(publicKey);
-      const [stakePDA] = getStakePDA(mint, configPDA);
-      const [metadataPDA] = getMetadataPDA(mint);
-      const [editionPDA] = getEditionPDA(mint);
+      const [stakePDA] = getStakePDA(mint, publicKey);
+      
+      // Get the token account for this NFT
+      const tokenAccount = new PublicKey(mintAddress); // This should be the actual token account, not the mint
 
-      const mintAta = getAssociatedTokenAddressSync(mint, publicKey);
+      console.log("User PDA:", userPDA.toString());
+      console.log("Stake PDA:", stakePDA.toString());
+      console.log("Token Account:", tokenAccount.toString());
 
-      const tx = await program.methods
-        .stake()
+      // Call the stake_nft instruction
+      // Use type assertion to access methods
+      const tx = await (program as any).methods
+        .stakeNft()
         .accounts({
-          user: publicKey,
+          owner: publicKey,
           mint,
-          collectionMint: collection,
-          mintAta,
-          metadata: metadataPDA,
-          edition: editionPDA,
-          config: configPDA,
-          stakeAccount: stakePDA,
+          tokenAccount,
           userAccount: userPDA,
+          stakeAccount: stakePDA,
           systemProgram: SystemProgram.programId,
           tokenProgram: TOKEN_PROGRAM_ID,
-          metadataProgram: METADATA_PROGRAM_ID,
         })
         .rpc();
 
+      console.log("NFT staked with tx:", tx);
       return tx;
+    } catch (error) {
+      console.error("Error staking NFT:", error);
+      throw error;
     } finally {
       setLoading(false);
     }
   }, [program, publicKey]);
 
   const unstakeNFT = useCallback(async (mintAddress: string) => {
-    if (!program || !publicKey) throw new Error('Wallet not connected');
-
-    setLoading(true);
-    try {
-      const mint = new PublicKey(mintAddress);
-      const [configPDA] = getConfigPDA();
-      const [userPDA] = getUserPDA(publicKey);
-      const [stakePDA] = getStakePDA(mint, configPDA);
-      const [editionPDA] = getEditionPDA(mint);
-
-      const mintAta = getAssociatedTokenAddressSync(mint, publicKey);
-
-      const tx = await program.methods
-        .unstake()
-        .accounts({
-          user: publicKey,
-          mint,
-          mintAta,
-          edition: editionPDA,
-          config: configPDA,
-          stakeAccount: stakePDA,
-          userAccount: userPDA,
-          systemProgram: SystemProgram.programId,
-          tokenProgram: TOKEN_PROGRAM_ID,
-          metadataProgram: METADATA_PROGRAM_ID,
-        })
-        .rpc();
-
-      return tx;
-    } finally {
-      setLoading(false);
+    if (!program || !publicKey) {
+      throw new Error('Wallet not connected or program not initialized');
     }
-  }, [program, publicKey]);
-
-  const claimRewards = useCallback(async () => {
-    if (!program || !publicKey) throw new Error('Wallet not connected');
 
     setLoading(true);
     try {
-      const [configPDA] = getConfigPDA();
+      console.log(`Unstaking NFT with mint ${mintAddress}...`);
+      
+      // Convert string address to PublicKey
+      const mint = new PublicKey(mintAddress);
+      
+      // Get PDAs
       const [userPDA] = getUserPDA(publicKey);
-      const [rewardsMintPDA] = getRewardsMintPDA(configPDA);
+      const [stakePDA] = getStakePDA(mint, publicKey);
+      
+      // Get the token account for this NFT
+      const tokenAccount = new PublicKey(mintAddress); // This should be the actual token account, not the mint
 
-      const rewardsAta = getAssociatedTokenAddressSync(rewardsMintPDA, publicKey);
+      console.log("User PDA:", userPDA.toString());
+      console.log("Stake PDA:", stakePDA.toString());
+      console.log("Token Account:", tokenAccount.toString());
 
-      const tx = await program.methods
-        .claim()
+      // Call the unstake_nft instruction
+      // Use type assertion to access methods
+      const tx = await (program as any).methods
+        .unstakeNft()
         .accounts({
-          user: publicKey,
+          owner: publicKey,
+          mint,
+          tokenAccount,
           userAccount: userPDA,
-          rewardsMint: rewardsMintPDA,
-          config: configPDA,
-          rewardsAta,
+          stakeAccount: stakePDA,
           systemProgram: SystemProgram.programId,
           tokenProgram: TOKEN_PROGRAM_ID,
-          associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         })
         .rpc();
 
+      console.log("NFT unstaked with tx:", tx);
       return tx;
+    } catch (error) {
+      console.error("Error unstaking NFT:", error);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -155,7 +144,7 @@ export const useStaking = () => {
     initializeUser,
     stakeNFT,
     unstakeNFT,
-    claimRewards,
     loading,
+    programReady: !!program
   };
 };

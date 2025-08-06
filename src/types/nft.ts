@@ -21,26 +21,27 @@ export interface NFT {
   }>;
   isStaked: boolean;
   stakedAt?: number;
-  collection?: string;
+  collection?: string | null;
+  collectionHash?: string | null;
+  creators?: Array<{
+    address: string;
+    share: number;
+    verified?: boolean;
+  }>;
+  isPartOfCollection?: boolean;
+  tokenAccount?: string;
 }
 
-export interface StakeInfo {
+export interface StakeAccount {
   owner: string;
   mint: string;
-  stakedAt: number;
-  bump: number;
+  tokenAccount: string;
+  stakeTime: number;
+  isInitialized: boolean;
 }
 
 export interface UserAccount {
-  points: number;
-  amountStaked: number;
-  bump: number;
-}
-
-export interface ConfigAccount {
-  pointsPerStake: number;
-  maxStake: number;
-  freezePeriod: number;
-  rewardsBump: number;
-  bump: number;
+  owner: string;
+  stakeCount: number;
+  isInitialized: boolean;
 }
